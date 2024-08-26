@@ -14,8 +14,15 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-}
+  id              Int      @id @default(autoincrement())
+  phoneNumber     String   @unique 
+  otp             String?  
+  otpExpiresAt    DateTime? 
+  firstName       String?  
+  lastName        String?   
+  email           String?   @unique 
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt 
 
+  @@index([phoneNumber]) 
+}
