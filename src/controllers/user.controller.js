@@ -65,13 +65,13 @@ module.exports.verifyOtp = async (req, res) => {
         const user = await prisma.user.findUnique({
             where: { phoneNumber },
         });
-
+        console.log("shi chal raa h")
         if (!user) {
             return responseManagement.sendResponse(res, httpStatus.NOT_FOUND, 'User not found');
         }
         const phoneNumber_converted = parseInt(req.body.phoneNumber, 10);
         const response = await axios.get(`https://2factor.in/API/V1/28f37d6a-6134-11ef-8b60-0200cd936042/SMS/VERIFY3/+91${phoneNumber_converted}/${Otp}`);
-
+        console.log(response.data.Status,"shi gh")
         if (response.data.Status === "Success") {
             if (new Date() > new Date(user.otpExpiresAt)) {
                 return responseManagement.sendResponse(res, httpStatus.UNAUTHORIZED, 'OTP expired');
@@ -127,3 +127,4 @@ module.exports.User_Details = async (req, res) => {
         return responseManagement.sendResponse(res, httpStatus.INTERNAL_SERVER_ERROR, 'Internal server error', error);
     }
 }
+

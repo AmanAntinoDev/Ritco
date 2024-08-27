@@ -1,0 +1,8 @@
+module.exports = {
+    INTERNAL_SERVER_ERROR: 500,
+    SUCCESS: 200,
+    BAD_REQUEST: 400,
+   
+    INVALID_EMAIL: 1000,
+    INCORRECT_PASSWORD: 1001,
+  };
