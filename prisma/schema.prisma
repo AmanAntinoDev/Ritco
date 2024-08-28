@@ -33,5 +33,24 @@ model Admin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum Role {
+  ADMIN
+  FINANCE
+  SUPPORT
+  OPERATION
+}
+
+model User_Admin {
+  id          Int     @id @default(autoincrement())
+  phoneNumber String  @unique
+  Name         String
+  role         Role   
+  password     String?
+  email        String
+  status       String  @default("active")
+
+}
+
  
 

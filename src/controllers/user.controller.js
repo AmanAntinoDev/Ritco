@@ -28,7 +28,7 @@ module.exports.UserLogin = async (req, res) => {
             });
         }
         const response = await axios.get(
-            `https://2factor.in/API/V1/28f37d6a-6134-11ef-8b60-0200cd936042/SMS/+91${phoneNumber_converted}/AUTOGEN/OTP1`
+            `https://2factor.in/API/V1/3acc9845-6432-11ef-8b60-0200cd936042/SMS/+91${phoneNumber_converted}/AUTOGEN/OTP1`
         );
 
         if (response.data.Status === "Success") {
@@ -44,11 +44,9 @@ module.exports.UserLogin = async (req, res) => {
         }
         const data={
             phoneNumber:phoneNumber,
-            otp_details:response.data,
-            check:check
-        }
-
-        return responseManagement.sendResponse(res, httpStatus.OK, 'user registered successfully',data);
+            isUserRegister:check
+      }
+      return responseManagement.sendResponse(res, httpStatus.OK, 'user registered successfully',data);
 
     } catch (error) {
         console.error('Error sending OTP:', error);
@@ -70,7 +68,7 @@ module.exports.verifyOtp = async (req, res) => {
             return responseManagement.sendResponse(res, httpStatus.NOT_FOUND, 'User not found');
         }
         const phoneNumber_converted = parseInt(req.body.phoneNumber, 10);
-        const response = await axios.get(`https://2factor.in/API/V1/28f37d6a-6134-11ef-8b60-0200cd936042/SMS/VERIFY3/+91${phoneNumber_converted}/${Otp}`);
+        const response = await axios.get(`https://2factor.in/API/V1/3acc9845-6432-11ef-8b60-0200cd936042/SMS/VERIFY3/+91${phoneNumber_converted}/${Otp}`);
         console.log(response.data.Status,"shi gh")
         if (response.data.Status === "Success") {
             if (new Date() > new Date(user.otpExpiresAt)) {

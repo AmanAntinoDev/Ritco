@@ -1,6 +1,7 @@
 const Util=require("../utils/Util.js")
 const responseCode = require("../utils/response/response.code");
 const responseMessage = require("../utils/response/response.message");
+const {allowedRoles}=require("../config/config.js")
 const Joi=require("joi")
 module.exports.otpRequestSchema = Joi.object({
     phoneNumber: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
@@ -62,4 +63,31 @@ module.exports.loginValidate = async (req, res, next) => {
       );
     }
   };
+  module.exports.User_Admin_Schema= Joi.object({
+    phoneNumber: Joi.string().pattern(/^[0-9]{10,15}$/).required().messages({
+        'string.pattern.base': 'Phone number must be a valid number with 10-15 digits',
+        'any.required': 'Phone number is required',
+    }),
+    Name: Joi.string().min(3).max(50).required().messages({
+        'string.min': 'Name must be at least 3 characters long',
+        'string.max': 'Name must not exceed 50 characters',
+        'any.required': 'Name is required',
+    }),
+    role: Joi.string().valid('ADMIN', 'FINANCE', 'SUPPORT', 'OPERATION').required().messages({
+        'any.only': 'Role must be one of ADMIN, FINANCE, SUPPORT, or OPERATION',
+        'any.required': 'Role is required',
+    }),
+    email:Joi.string().email().required()
 
+});
+
+module.exports.User_Admin_Update_Schema = Joi.object({
+    phoneNumber: Joi.string().optional(),
+    Name: Joi.string().optional(),
+    email: Joi.string().email().optional(),
+    role: Joi.string().valid(...allowedRoles).optional(),
+});
+module.exports.Admin_User_Schema=Joi.object({
+  email: Joi.string().email().required(),
+  password:Joi.string().required()
+})
